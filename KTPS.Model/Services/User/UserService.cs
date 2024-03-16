@@ -31,8 +31,7 @@ public class UserService : IUserService
 
     public async Task<int> CreateUserAsync(RegistrationBasic registration)
     {
-        var hashedPassword = registration.Password.Hash();
-        return await _userRepository.InsertAsync(new() { Email = registration.Email, Username = registration.Username, Password = hashedPassword });
+        return await _userRepository.InsertAsync(new() { Email = registration.Email, Username = registration.Username, Password = registration.Password });
     }
 
     public async Task<UserBasic> GetUserByUsernameAsync(string username)

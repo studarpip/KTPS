@@ -17,7 +17,7 @@ public class PasswordResetRepository : IPasswordResetRepository
 	{
 		var query = @"
 			SELECT RecoveryCode FROM passwordResets WHERE UserId = @UserId
-			ORDER BY id DESC SELECT 1
+			ORDER BY Id DESC LIMIT 1;
 			";
 
 		return await _repository.QueryAsync<string, dynamic>(query, new { UserId = userId });

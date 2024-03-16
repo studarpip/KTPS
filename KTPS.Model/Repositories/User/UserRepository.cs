@@ -63,7 +63,8 @@ public class UserRepository : IUserRepository
         {
             Username = updatedUser.Username,
             Password = updatedUser.Password,
-            Email = updatedUser.Email
+            Email = updatedUser.Email,
+            Id = updatedUser.ID
         });
     }
 }

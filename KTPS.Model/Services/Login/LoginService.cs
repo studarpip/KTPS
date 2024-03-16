@@ -22,6 +22,10 @@ public class LoginService : ILoginService
     {
         try
         {
+            var code = await _passwordResetRepository.GetCodeAsync(request.UserID);
+            if (!code.Equals(request.AuthCheck))
+                return new() { Success = false, Message = "Technical error!" };
+
             var user = await _userService.GetUserByIdAsync(request.UserID);
             if (user == null) return new() { Success = false, Message = "User not found!" };
 
