@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\KTPS.Server.WebAPI.props" />
-</Project>
