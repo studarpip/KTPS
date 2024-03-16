@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace KTPS.Server.WebAPI.Controllers;
 
-[Controller]
+[Controller, Route("/login")]
 public class LoginController
 {
     private readonly ILoginService _loginService;
@@ -16,7 +16,16 @@ public class LoginController
         _loginService = loginService;
     }
 
-    [Route("/login")]
-    public async Task<ServerResult<int>> StartAsync([FromBody] LoginRequest request) => await _loginService.LoginAsync(request);
+    [HttpPost("login")]
+    public async Task<ServerResult<int>> Login([FromBody] LoginRequest request) => await _loginService.LoginAsync(request);
+
+    [HttpPost("forgotMyPassword")]
+    public async Task<ServerResult<int>> ForgotMyPassword([FromBody] ForgotPasswordRequest request) => await _loginService.ForgotPasswordAsync(request);
+
+    [HttpPost("resetAuth")]
+    public async Task<ServerResult> ResetAuth([FromBody] ResetPasswordAuthRequest request) => await _loginService.ResetPasswordAuthAsync(request);
+
+    [HttpPost("reset")]
+    public async Task<ServerResult> Reset([FromBody] ResetPasswordRequest request) => await _loginService.ResetPasswordAsync(request);
 
 }
