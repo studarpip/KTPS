@@ -39,7 +39,7 @@ public class RegistrationService : IRegistrationService
                 Email = request.Email,
                 Username = request.Username,
                 Password = request.Password,
-                AuthCode = CreateAuthCode()
+                AuthCode = "fsdfsd"
             });
 
             return new() { Success = true, Data = id };
