@@ -1,7 +1,11 @@
 using KTPS.Model.Repositories;
+using KTPS.Model.Repositories.GroupMembers;
+using KTPS.Model.Repositories.Groups;
+using KTPS.Model.Repositories.Guests;
 using KTPS.Model.Repositories.PasswordReset;
 using KTPS.Model.Repositories.Registration;
 using KTPS.Model.Repositories.User;
+using KTPS.Model.Services.Groups;
 using KTPS.Model.Services.Login;
 using KTPS.Model.Services.Registration;
 using KTPS.Model.Services.User;
@@ -54,5 +58,9 @@ public class Program
         services.AddSingleton<IUserService, UserService>();
         services.AddSingleton<ILoginService, LoginService>();
         services.AddSingleton<IPasswordResetRepository, PasswordResetRepository>();
+        services.AddSingleton<IGroupsService, GroupsService>();
+        services.AddSingleton<IGroupsRepository, GroupsRepository>();
+        services.AddSingleton<IGroupMembersRepository, GroupMembersRepository>();
+        services.AddSingleton<IGuestsRepository, GuestsRepository>();
     }
 }
