@@ -1,4 +1,5 @@
 ﻿using KTPS.Model.Entities.Registration;
+using KTPS.Model.Entities.User;
 using KTPS.Model.Helpers;
 using KTPS.Model.Repositories.User;
 using System.Threading.Tasks;
@@ -31,6 +32,26 @@ public class UserService : IUserService
     public async Task CreateUserAsync(RegistrationBasic registration)
     {
         var hashedPassword = registration.Password.Hash();
-        await _userRepository.InserAsync(new() { Email = registration.Email, Username = registration.Username, Password = hashedPassword });
+        await _userRepository.InsertAsync(new() { Email = registration.Email, Username = registration.Username, Password = hashedPassword });
+    }
+
+    public async Task<UserBasic> GetUserByUsernameAsync(string username)
+    {
+        return await _userRepository.GetByUsernameAsync(username);
+    }
+
+    public async Task<UserBasic> GetUserByEmailAsync(string email)
+    {
+        return await _userRepository.GetByEmailAsync(email);
+    }
+
+    public async Task<UserBasic> GetUserByIdAsync(int id)
+    {
+        return await _userRepository.GetByIdAsync(id);
+    }
+
+    public async Task<UserBasic> UpdateUserAsync(UserBasic updatedUser)
+    {
+        return await _userRepository.UpdateUserAsync(updatedUser);
     }
 }
