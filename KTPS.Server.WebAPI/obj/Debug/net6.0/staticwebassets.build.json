@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "q1mizUrVraDCbgASwslbXwlGfT0FFcSNtsfL59GwbtY=",
+  "Source": "KTPS.Server.WebAPI",
+  "BasePath": "_content/KTPS.Server.WebAPI",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
