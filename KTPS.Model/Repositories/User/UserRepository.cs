@@ -1,5 +1,4 @@
 ﻿using KTPS.Model.Entities.User;
-using System;
 using System.Threading.Tasks;
 
 namespace KTPS.Model.Repositories.User;
@@ -22,22 +21,49 @@ public class UserRepository : IUserRepository
 		return await _repository.QueryAsync<UserBasic, dynamic>(query, new { Username = username });
 	}
 
-	public async Task<UserBasic> GetByEmailAsync(string email) => throw new NotImplementedException();
-
-	public async Task InsertAsync(UserBasic user) => throw new NotImplementedException();
-
-	public Task<Task<UserBasic>> GetByIdAsync(int id)
+	public async Task<UserBasic> GetByEmailAsync(string email)
 	{
-		throw new NotImplementedException();
+		var sql = @"SELECT * FROM users WHERE Email = @Email";
+
+		return await _repository.QueryAsync<UserBasic, dynamic>(sql, new { Email = email });
 	}
 
-	Task<UserBasic> IUserRepository.GetByIdAsync(int id)
+	public async Task<int> InsertAsync(UserBasic user)
 	{
-		throw new NotImplementedException();
-	}
+        var sql = @"
+            INSERT INTO users (`Username`, `Password`, `Email`)
+            VALUES (@Username, @Password, @Email);
+            SELECT LAST_INSERT_ID();";
 
-	public Task<UserBasic> UpdateUserAsync(UserBasic updatedUser)
+        return await _repository.QueryAsync<int, dynamic>(sql, new
+        {
+            Username = user.Username,
+            Password = user.Password,
+            Email = user.Email
+        });
+    }
+
+	public async Task<UserBasic> GetByIdAsync(int id)
 	{
-		throw new NotImplementedException();
-	}
+        var sql = @"SELECT * FROM users WHERE Id = @Id";
+
+        return await _repository.QueryAsync<UserBasic, dynamic>(sql, new { Id = id });
+    }
+
+	public async Task UpdateUserAsync(UserBasic updatedUser)
+	{
+        var sql = @"
+            UPDATE users SET
+            Username = @Username,
+            Password = @Password,
+            Email = @Email
+            WHERE Id = @Id";
+
+        await _repository.ExecuteAsync<dynamic>(sql, new
+        {
+            Username = updatedUser.Username,
+            Password = updatedUser.Password,
+            Email = updatedUser.Email
+        });
+    }
 }

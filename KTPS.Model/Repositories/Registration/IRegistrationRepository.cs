@@ -7,4 +7,5 @@ public interface IRegistrationRepository
 {
     Task<int> InsertAsync(RegistrationBasic registration);
     Task<RegistrationBasic> GetByID(int id);
+    Task AddUserToRegistration(int id, int userId);
 }

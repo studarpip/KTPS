@@ -16,20 +16,20 @@ public class PasswordResetRepository : IPasswordResetRepository
 	public async Task<string> GetCodeAsync(int userId)
 	{
 		var query = @"
-			SELECT RecoveryCode FROM passwordResets WHERE UserId = @UserID
+			SELECT RecoveryCode FROM passwordResets WHERE UserId = @UserId
 			ORDER BY id DESC SELECT 1
 			";
 
-		return await _repository.QueryAsync<string, dynamic>(query, new { UserID = userId });
+		return await _repository.QueryAsync<string, dynamic>(query, new { UserId = userId });
 	}
 
 	public async Task InsertCodeAsync(int userId, string recoveryCode)
 	{
 		var query = @"
-            INSERT INTO passwordResets (`UserID`, `RecoveryCode`)
+            INSERT INTO passwordResets (`UserId`, `RecoveryCode`)
             VALUES (@UserId, @RecoveryCode);
 			";
 
-		await _repository.ExecuteAsync<dynamic>(query, new { UserID = userId, RecoveryCode = recoveryCode });
+		await _repository.ExecuteAsync<dynamic>(query, new { UserId = userId, RecoveryCode = recoveryCode });
 	}
 }

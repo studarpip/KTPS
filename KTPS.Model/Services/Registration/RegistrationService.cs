@@ -1,6 +1,7 @@
 ﻿using KTPS.Model.Entities;
 using KTPS.Model.Entities.Registration;
 using KTPS.Model.Entities.Requests;
+using KTPS.Model.Helpers;
 using KTPS.Model.Repositories.Registration;
 using KTPS.Model.Services.User;
 using System;
@@ -39,7 +40,7 @@ public class RegistrationService : IRegistrationService
                 Email = request.Email,
                 Username = request.Username,
                 Password = request.Password,
-                AuthCode = CreateAuthCode()
+                AuthCode = RandomString.GenerateRandomString()
             });
 
             return new() { Success = true, Data = id };
@@ -50,7 +51,7 @@ public class RegistrationService : IRegistrationService
         }
     }
 
-    public async Task<ServerResult> AuthRegistrationAsync(RegistrationAuthRequest request)
+    public async Task<ServerResult<int>> AuthRegistrationAsync(RegistrationAuthRequest request)
     {
         try
         {
@@ -61,15 +62,15 @@ public class RegistrationService : IRegistrationService
             if (!registration.AuthCode.Equals(request.AuthCode))
                 return new() { Success = false, Message = "Authentication code is incorrect!" };
 
-            await _userService.CreateUserAsync(registration);
+            int userId = await _userService.CreateUserAsync(registration);
 
-            return new() { Success = true };
+            await _registrationRepository.AddUserToRegistration(registration.Id, userId);
+
+            return new() { Success = true, Data = userId };
         }
         catch
         {
             return new() { Success = false, Message = "Technical error!" };
         }
     }
-
-    private string CreateAuthCode() => throw new NotImplementedException();
 }

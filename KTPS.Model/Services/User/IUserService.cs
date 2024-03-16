@@ -8,9 +8,9 @@ public interface IUserService
 {
     Task<bool> UsernameExistsAsync(string username);
     Task<bool> EmailExistsAsync(string email);
-    Task CreateUserAsync(RegistrationBasic registration);
+    Task<int> CreateUserAsync(RegistrationBasic registration);
     Task<UserBasic> GetUserByUsernameAsync(string username);
     Task<UserBasic> GetUserByEmailAsync(string email);
     Task<UserBasic> GetUserByIdAsync(int id);
-    Task<UserBasic> UpdateUserAsync(UserBasic updatedUser);
+    Task UpdateUserAsync(UserBasic updatedUser);
 }

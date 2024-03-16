@@ -29,10 +29,10 @@ public class UserService : IUserService
         return user is not null;
     }
 
-    public async Task CreateUserAsync(RegistrationBasic registration)
+    public async Task<int> CreateUserAsync(RegistrationBasic registration)
     {
         var hashedPassword = registration.Password.Hash();
-        await _userRepository.InsertAsync(new() { Email = registration.Email, Username = registration.Username, Password = hashedPassword });
+        return await _userRepository.InsertAsync(new() { Email = registration.Email, Username = registration.Username, Password = hashedPassword });
     }
 
     public async Task<UserBasic> GetUserByUsernameAsync(string username)
@@ -50,8 +50,8 @@ public class UserService : IUserService
         return await _userRepository.GetByIdAsync(id);
     }
 
-    public async Task<UserBasic> UpdateUserAsync(UserBasic updatedUser)
+    public async Task UpdateUserAsync(UserBasic updatedUser)
     {
-        return await _userRepository.UpdateUserAsync(updatedUser);
+        await _userRepository.UpdateUserAsync(updatedUser);
     }
 }

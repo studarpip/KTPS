@@ -7,5 +7,5 @@ namespace KTPS.Model.Services.Registration;
 public interface IRegistrationService
 {
     Task<ServerResult<int>> StartRegistrationAsync(RegistrationStartRequest request);
-    Task<ServerResult> AuthRegistrationAsync(RegistrationAuthRequest request);
+    Task<ServerResult<int>> AuthRegistrationAsync(RegistrationAuthRequest request);
 }
