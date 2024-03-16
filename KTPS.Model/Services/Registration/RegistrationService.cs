@@ -39,7 +39,7 @@ public class RegistrationService : IRegistrationService
             {
                 Email = request.Email,
                 Username = request.Username,
-                Password = request.Password,
+                Password = request.Password.Hash(),
                 AuthCode = RandomString.GenerateRandomString()
             });
 

@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 
 namespace KTPS.Model.Repositories;
@@ -20,19 +20,19 @@ public class Repository : IRepository
 
     public async Task<IEnumerable<TRes>> QueryListAsync<TRes, T>(string command, T parameters)
     {
-        using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("Database"));
+        using IDbConnection connection = new MySqlConnection(_configuration.GetConnectionString("Database"));
         return await connection.QueryAsync<TRes>(command, parameters, commandType: CommandType.Text);
     }
 
     public async Task<TRes> QueryAsync<TRes, T>(string command, T parameters)
     {
-        using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("Database"));
-        return await connection.QuerySingleAsync<TRes>(command, parameters, commandType: CommandType.Text);
+        using IDbConnection connection = new MySqlConnection(_configuration.GetConnectionString("Database"));
+        return await connection.QuerySingleOrDefaultAsync<TRes>(command, parameters, commandType: CommandType.Text);
     }
 
     public async Task ExecuteAsync<T>(string command, T parameters)
     {
-        using IDbConnection connection = new SqlConnection(_configuration.GetConnectionString("Database"));
+        using IDbConnection connection = new MySqlConnection(_configuration.GetConnectionString("Database"));
         await connection.ExecuteAsync(command, parameters, commandType: CommandType.Text);
     }
 }
