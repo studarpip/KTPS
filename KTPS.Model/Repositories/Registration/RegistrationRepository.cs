@@ -1,5 +1,4 @@
 ﻿using KTPS.Model.Entities.Registration;
-using System;
 using System.Threading.Tasks;
 
 namespace KTPS.Model.Repositories.Registration;
@@ -32,5 +31,17 @@ public class RegistrationRepository : IRegistrationRepository
         });
     }
 
-    public async Task<RegistrationBasic> GetByID(int id) => throw new NotImplementedException();
+    public async Task<RegistrationBasic> GetByID(int id)
+    {
+        var sql = @"SELECT * FROM registrations WHERE Id = @Id";
+
+        return await _repository.QueryAsync<RegistrationBasic, dynamic>(sql, new { Id = id });
+    }
+
+    public async Task AddUserToRegistration(int id, int userId)
+    {
+        var sql = @"UPDATE registrations SET UserId = @UserId WHERE Id = @Id";
+
+        await _repository.ExecuteAsync<dynamic>(sql, new { UserId = userId, Id = id });
+    }
 }
