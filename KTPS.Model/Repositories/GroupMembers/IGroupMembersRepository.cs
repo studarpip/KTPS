@@ -6,6 +6,8 @@ namespace KTPS.Model.Repositories.GroupMembers;
 
 public interface IGroupMembersRepository
 {
+    Task DeleteGroupGuestAsync(int guestId, int iD);
     Task DeleteGroupMemberAsync(int userId, int groupId);
     Task<IEnumerable<GroupMember>> GetByGroupIDAsync(int groupId);
+    Task AddGroupMemberAsync(int userId, int groupId);
 }

@@ -43,6 +43,8 @@ public class GroupsService : IGroupsService
                 OwnerUserID = request.UserID
             });
 
+            await _groupMembersRepository.AddGroupMemberAsync(request.UserID, id);
+
             return new() { Success = true, Data = id };
         }
         catch (Exception)
@@ -114,11 +116,14 @@ public class GroupsService : IGroupsService
             if (group is null)
                 return new() { Success = false, Message = "Group does not exist!" };
 
-            if (!group.OwnerUserID.Equals(request.OwnerUserID))
+            if (!group.OwnerUserID.Equals(request.RequestUserId))
                 return new() { Success = false, Message = "Only the owner can remove group members!" };
 
-            foreach (var userId in request.UserIDList)
-                await _groupMembersRepository.DeleteGroupMemberAsync(userId, group.ID);
+            if(request.UserToRemoveId != null && request.UserToRemoveId != group.OwnerUserID)
+                await _groupMembersRepository.DeleteGroupMemberAsync((int)request.UserToRemoveId, group.ID);
+
+            if(request.GuestToRemoveId != null)
+                await _groupMembersRepository.DeleteGroupGuestAsync((int)request.GuestToRemoveId, group.ID);
 
             return new() { Success = true };
         }
@@ -139,7 +144,7 @@ public class GroupsService : IGroupsService
             var members = await _groupMembersRepository.GetByGroupIDAsync(groupId);
             var guests = await _guestsRepository.GetByGroupID(groupId);
 
-            return new() { Success = false, Data = new() { Guests = guests.ToList(), Members = members.ToList(), OwnerUserID = group.OwnerUserID } };
+            return new() { Success = true, Data = new() { Guests = guests.ToList(), Members = members.ToList(), OwnerUserID = group.OwnerUserID } };
         }
         catch (Exception)
         {
