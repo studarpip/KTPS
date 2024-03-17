@@ -1,0 +1,1 @@
+export const BASE_URL = "https://main-firstly-perch.ngrok-free.app";
