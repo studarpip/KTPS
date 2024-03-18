@@ -28,4 +28,7 @@ public class FriendsController
 
     [HttpPost("find")]
     public async Task<ServerResult<IEnumerable<UserMinimal>>> FindFriendAsync([FromBody] FindFriendRequest request) => await _friendsService.FindFriendAsync(request);
+
+	[HttpPost("add")]
+	public async Task<ServerResult> AddFriendAsync([FromBody] AddFriendRequest request) => await _friendsService.AddFriendAsync(request);
 }

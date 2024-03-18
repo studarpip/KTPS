@@ -9,4 +9,5 @@ public interface IFriendsRepository
     Task<IEnumerable<UserMinimal>> GetFriendListAsync(int userId);
     Task DeleteFriendAsync(int userId, int friendId);
     Task<IEnumerable<UserMinimal>> FindFriendAsync(string input);
+    Task InsertAsync(int userId, int friendId);
 }

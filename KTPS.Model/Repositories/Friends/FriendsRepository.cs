@@ -42,4 +42,13 @@ public class FriendsRepository : IFriendsRepository
 
         return await _repository.QueryListAsync<UserMinimal, dynamic>(sql, new { });
     }
+
+    public async Task InsertAsync(int userId, int friendId)
+    {
+        var sql = @"
+            INSERT INTO friends (`UserId`, `FriendId`)
+            VALUES (@UserID, @FriendID);";
+
+        await _repository.ExecuteAsync(sql, new { UserID = userId, FriendID = friendId });
+    }
 }

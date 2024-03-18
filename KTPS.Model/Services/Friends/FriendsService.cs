@@ -13,15 +13,12 @@ namespace KTPS.Model.Services.Friends;
 public class FriendsService : IFriendsService
 {
     private readonly IFriendsRepository _friendsRepository;
-    private readonly IUserRepository _userRepository;
 
     public FriendsService(
-        IFriendsRepository friendsRepository,
-        IUserRepository userRepository
+        IFriendsRepository friendsRepository
         )
     {
         _friendsRepository = friendsRepository;
-        _userRepository = userRepository;
     }
 
     public async Task<ServerResult<IEnumerable<UserMinimal>>> GetFriendListAsync(int userId)
@@ -58,6 +55,20 @@ public class FriendsService : IFriendsService
             var availableFriends = await _friendsRepository.FindFriendAsync(request.Input);
             var filteredFriends = availableFriends.Where(x => x.ID != request.UserID);
             return new() { Success = true, Data = filteredFriends };
+        }
+        catch (Exception)
+        {
+            return new() { Success = false, Message = "Technical error!" };
+        }
+    }
+
+    public async Task<ServerResult> AddFriendAsync(AddFriendRequest request)
+    {
+        try
+        {
+            await _friendsRepository.InsertAsync(request.UserID, request.FriendID);
+            await _friendsRepository.InsertAsync(request.FriendID, request.UserID);
+            return new() { Success = true };
         }
         catch (Exception)
         {
