@@ -1,0 +1,8 @@
+CREATE TABLE notifications (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    SenderID INT NOT NULL,
+    ReceiverID INT NOT NULL,
+    GroupID INT,
+    Type VARCHAR(255),
+    Responded TINYINT(1)
+);
