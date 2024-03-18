@@ -27,11 +27,32 @@ export default function LoginForm({ navigation }) {
     checkLoggedIn();
   }, []);
 
+  const isStrongPassword = (password) => {
+    if (password.length < 10) {
+      return false;
+    }
+    if (!/\d/.test(password)) {
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      return false;
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return false;
+    }
+    return true;
+  };
+
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const checkLoggedIn = async () => {
     const userId = await AsyncStorage.getItem("userId")
     if (userId) {
       Alert.alert("Welcome back!");
-    await AsyncStorage.removeItem('userId');
+      await AsyncStorage.removeItem('userId');
     }
   };
 
@@ -41,10 +62,19 @@ export default function LoginForm({ navigation }) {
 
   const handleResetSubmit = async () => {
     if (newPassword.trim() === '') {
-      Alert.alert('Error', 'Recovery code cannot be empty.');
+      Alert.alert('Error', 'New password cannot be empty');
       return;
     }
-    if(newPassword!=newPasswordConfirm){
+
+    // if (!isStrongPassword(newPassword)) {
+    //   Alert.alert(
+    //     'Error',
+    //     'Password must have at least 10 characters, contain at least one digit, one uppercase letter, and one special character.'
+    //   );
+    //   return;
+    // }
+
+    if (newPassword != newPasswordConfirm) {
       Alert.alert('Error', 'Passwords must match');
       return;
     }
@@ -124,6 +154,11 @@ export default function LoginForm({ navigation }) {
       return;
     }
 
+    // if (!isValidEmail(email)) {
+    //   Alert.alert('Error', 'Please enter a valid email address.');
+    //   return;
+    // }
+
     setIsEmailSubmitDisabled(true);
 
     try {
@@ -176,7 +211,7 @@ export default function LoginForm({ navigation }) {
       const data = await response.json();
       if (data.success == true) {
         Alert.alert('Success', 'Login successful!');
-        if(remember)
+        if (remember)
           await AsyncStorage.setItem('userId', data.data.toString());
         setUser(data.data);
       } else {
@@ -460,7 +495,7 @@ const styles = StyleSheet.create({
   },
   emailModalContent: {
     backgroundColor: 'white',
-    padding: 20,
+    padding: 10,
     borderRadius: 10,
     alignItems: 'center',
     justifyContent: 'center',
