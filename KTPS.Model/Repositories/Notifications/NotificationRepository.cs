@@ -1,5 +1,4 @@
-﻿using KTPS.Model.Entities.Guests;
-using KTPS.Model.Entities.Notifications;
+﻿using KTPS.Model.Entities.Notifications;
 using KTPS.Model.Entities.Requests;
 using System.Collections.Generic;
 using System.Threading.Tasks;

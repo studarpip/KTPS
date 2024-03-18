@@ -1,11 +1,11 @@
 ﻿using KTPS.Model.Entities;
+using KTPS.Model.Entities.Notifications;
 using KTPS.Model.Entities.Requests;
 using KTPS.Model.Repositories.Notifications;
-using KTPS.Model.Entities.Notifications;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using KTPS.Model.Services.Friends;
 using KTPS.Model.Services.Groups;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace KTPS.Model.Services.Notifications;
 
