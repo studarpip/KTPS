@@ -35,7 +35,7 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<IEnumerable<Notification>> ListAsync(int userId)
     {
-        var sql = @"SELECT * FROM notifications WHERE SenderID = @UserID";
+        var sql = @"SELECT * FROM notifications WHERE ReceiverID = @UserID";
         return await _repository.QueryListAsync<Notification, dynamic>(sql, new { UserID = userId });
     }
 

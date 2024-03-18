@@ -30,7 +30,7 @@ public class NotificationService : INotificationService
     {
         try
         {
-            var newNotification = new Notification() { SenderID = request.SenderID, ReceiverID = request.ReceiverID, Type = request.Type };
+            var newNotification = new Notification() { SenderID = request.SenderID, ReceiverID = request.ReceiverID, Type = request.Type, GroupID = request.GroupId };
             var id = await _notificationRepository.InsertAsync(newNotification);
             return new() { Success = true, Data = id };
         }
@@ -60,6 +60,9 @@ public class NotificationService : INotificationService
             await _notificationRepository.RespondAsync(request);
             var notification = await _notificationRepository.GetAsync(request.NotificationID);
 
+            if(!request.Accept)
+                return new() { Success = true };
+
             switch (notification.Type)
             {
                 case "Friend":
@@ -69,7 +72,7 @@ public class NotificationService : INotificationService
                     }
                 case "Group":
                     {
-                        await _groupsService.AddGroupMemberAsync((int)notification.GroupID, notification.SenderID);
+                        await _groupsService.AddGroupMemberAsync((int)notification.GroupID, notification.ReceiverID);
                         break;
                     }
                 default: break;

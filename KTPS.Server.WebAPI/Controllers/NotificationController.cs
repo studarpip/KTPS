@@ -1,9 +1,6 @@
 ﻿using KTPS.Model.Entities;
-using KTPS.Model.Entities.Groups;
 using KTPS.Model.Entities.Notifications;
 using KTPS.Model.Entities.Requests;
-using KTPS.Model.Entities.Responses;
-using KTPS.Model.Services.Groups;
 using KTPS.Model.Services.Notifications;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
