@@ -1,4 +1,5 @@
 using KTPS.Model.Repositories;
+using KTPS.Model.Repositories.Friends;
 using KTPS.Model.Repositories.GroupMembers;
 using KTPS.Model.Repositories.Groups;
 using KTPS.Model.Repositories.Guests;
@@ -6,6 +7,7 @@ using KTPS.Model.Repositories.Notifications;
 using KTPS.Model.Repositories.PasswordReset;
 using KTPS.Model.Repositories.Registration;
 using KTPS.Model.Repositories.User;
+using KTPS.Model.Services.Friends;
 using KTPS.Model.Services.Groups;
 using KTPS.Model.Services.Login;
 using KTPS.Model.Services.Notifications;
@@ -68,5 +70,7 @@ public class Program
         services.AddSingleton<IGuestsRepository, GuestsRepository>();
         services.AddSingleton<INotificationRepository, NotificationRepository>();
         services.AddSingleton<INotificationService, NotificationService>();
+        services.AddSingleton<IFriendsRepository, FriendsRepository>();
+        services.AddSingleton<IFriendsService, FriendsService>();
     }
 }
