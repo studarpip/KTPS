@@ -87,6 +87,9 @@ public class GroupsService : IGroupsService
                 return new() { Success = false, Message = "Only the owner can delete the group!" };
 
             await _groupsRepository.DeleteAsync(request.ID);
+            var groupMembers = (await _groupMembersRepository.GetByGroupIDAsync(group.ID)).ToList();
+            foreach (var member in groupMembers)
+                await _groupMembersRepository.DeleteGroupMemberAsync(member.UserID, group.ID);
             return new() { Success = true };
         }
         catch (Exception)
