@@ -168,4 +168,17 @@ public class GroupsService : IGroupsService
             return new() { Success = false, Message = "Technical error!" };
         }
     }
+
+    public async Task<ServerResult> AddGroupMemberAsync(int groupId, int userId)
+    {
+        try
+        {
+            await _groupMembersRepository.AddGroupMemberAsync(userId, groupId);
+            return new() { Success = true };
+        }
+        catch (Exception)
+        {
+            return new() { Success = false, Message = "Technical error!" };
+        }
+    }
 }

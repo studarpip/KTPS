@@ -62,17 +62,9 @@ public class FriendsService : IFriendsService
         }
     }
 
-    public async Task<ServerResult> AddFriendAsync(AddFriendRequest request)
+    public async Task AddFriendAsync(int userId, int friendId)
     {
-        try
-        {
-            await _friendsRepository.InsertAsync(request.UserID, request.FriendID);
-            await _friendsRepository.InsertAsync(request.FriendID, request.UserID);
-            return new() { Success = true };
-        }
-        catch (Exception)
-        {
-            return new() { Success = false, Message = "Technical error!" };
-        }
+        await _friendsRepository.InsertAsync(userId, friendId);
+        await _friendsRepository.InsertAsync(friendId, userId);
     }
 }

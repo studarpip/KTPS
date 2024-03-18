@@ -16,4 +16,5 @@ public interface IGroupsService
     Task<ServerResult> RemoveGroupMembersAsync(RemoveGroupMembersRequest request);
     Task<ServerResult<GetGroupMembersResponse>> GetMemberListAsync(int groupId);
     Task<ServerResult<int>> AddGuestAsync(AddGuestRequest request);
+    Task<ServerResult> AddGroupMemberAsync(int groupId, int userId);
 }

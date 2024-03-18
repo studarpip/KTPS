@@ -11,5 +11,5 @@ public interface IFriendsService
     Task<ServerResult<IEnumerable<UserMinimal>>> GetFriendListAsync(int userId);
     Task<ServerResult> DeleteFriendAsync(DeleteFriendRequest request);
     Task<ServerResult<IEnumerable<UserMinimal>>> FindFriendAsync(FindFriendRequest request);
-    Task<ServerResult> AddFriendAsync(AddFriendRequest request);
+    Task AddFriendAsync(int userId, int friendId);
 }
