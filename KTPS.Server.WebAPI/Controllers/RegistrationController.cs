@@ -22,5 +22,5 @@ public class RegistrationController
     public async Task<ServerResult<int>> StartAsync([FromBody] RegistrationStartRequest request) => await _registrationService.StartRegistrationAsync(request);
 
     [HttpPost("auth")]
-    public async Task<ServerResult> AuthAsync([FromBody] RegistrationAuthRequest request) => await _registrationService.AuthRegistrationAsync(request);
+    public async Task<ServerResult<int>> AuthAsync([FromBody] RegistrationAuthRequest request) => await _registrationService.AuthRegistrationAsync(request);
 }
