@@ -4,18 +4,26 @@ using KTPS.Model.Repositories.Notifications;
 using KTPS.Model.Entities.Notifications;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using KTPS.Model.Services.Friends;
+using KTPS.Model.Services.Groups;
 
 namespace KTPS.Model.Services.Notifications;
 
 public class NotificationService : INotificationService
 {
     private readonly INotificationRepository _notificationRepository;
+    private readonly IFriendsService _friendsService;
+    private readonly IGroupsService _groupsService;
 
     public NotificationService(
-        INotificationRepository notificationRepository
+        INotificationRepository notificationRepository,
+        IFriendsService friendsService,
+        IGroupsService groupsService
         )
     {
         _notificationRepository = notificationRepository;
+        _friendsService = friendsService;
+        _groupsService = groupsService;
     }
 
     public async Task<ServerResult<int>> CreateAsync(CreateNotificationRequest request)
@@ -50,7 +58,23 @@ public class NotificationService : INotificationService
         try
         {
             await _notificationRepository.RespondAsync(request);
-            //handle request: add freind/group
+            var notification = await _notificationRepository.GetAsync(request.NotificationID);
+
+            switch (notification.Type)
+            {
+                case "Friend":
+                    {
+                        await _friendsService.AddFriendAsync(notification.SenderID, notification.ReceiverID);
+                        break;
+                    }
+                case "Group":
+                    {
+                        await _groupsService.AddGroupMemberAsync((int)notification.GroupID, notification.SenderID);
+                        break;
+                    }
+                default: break;
+            }
+
             return new() { Success = true };
         }
         catch

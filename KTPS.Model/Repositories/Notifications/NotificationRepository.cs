@@ -19,16 +19,16 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<int> InsertAsync(Notification notification)
     {
-        //TODO
         var sql = @"
-            INSERT INTO notifications (`SenderID`, `ReceiverID`, `Type`, `Responded`)
-            VALUES(@SenderID, @ReceiverID, @Type, @Responded);
+            INSERT INTO notifications (`SenderID`, `ReceiverID`, `GroupID`, `Type`, `Responded`)
+            VALUES(@SenderID, @ReceiverID, @GroupID, @Type, @Responded);
             SELECT LAST_INSERT_ID();";
 
         return await _repository.QueryAsync<int, dynamic>(sql, new
         {
             SenderID = notification.SenderID,
             ReceiverID = notification.ReceiverID,
+            GroupID = notification.GroupID,
             Type = notification.Type,
             Responded = false
         });
@@ -36,15 +36,19 @@ public class NotificationRepository : INotificationRepository
 
     public async Task<IEnumerable<Notification>> ListAsync(int userId)
     {
-        //TODO
         var sql = @"SELECT * FROM notifications WHERE SenderID = @UserID";
         return await _repository.QueryListAsync<Notification, dynamic>(sql, new { UserID = userId });
     }
 
+    public async Task<Notification> GetAsync(int notificationId)
+    {
+        var sql = @"SELECT * FROM notifications WHERE ID = @ID LIMIT 1";
+        return await _repository.QueryAsync<Notification, dynamic>(sql, new { ID = notificationId });
+    }
+
     public async Task RespondAsync(RespondNotificationRequest request)
     {
-        //TODO
-        var sql = @"UPDATE notifications SET Responded = @Responded WHERE Id = @Id";
-        await _repository.ExecuteAsync(sql, new { Responded = true, Id = request.NotificationID });
+        var sql = @"UPDATE notifications SET Responded = @Responded WHERE ID = @ID";
+        await _repository.ExecuteAsync(sql, new { Responded = true, ID = request.NotificationID });
     }
 }

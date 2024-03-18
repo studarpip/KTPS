@@ -11,4 +11,5 @@ public interface INotificationRepository
     public Task<int> InsertAsync(Notification notification);
     public Task<IEnumerable<Notification>> ListAsync(int userId);
     public Task RespondAsync(RespondNotificationRequest request);
+    public Task<Notification> GetAsync(int notificationId);
 }
