@@ -119,10 +119,10 @@ public class GroupsService : IGroupsService
             if (!group.OwnerUserID.Equals(request.RequestUserId))
                 return new() { Success = false, Message = "Only the owner can remove group members!" };
 
-            if(request.UserToRemoveId != null && request.UserToRemoveId != group.OwnerUserID)
+            if (request.UserToRemoveId != null && request.UserToRemoveId != group.OwnerUserID)
                 await _groupMembersRepository.DeleteGroupMemberAsync((int)request.UserToRemoveId, group.ID);
 
-            if(request.GuestToRemoveId != null)
+            if (request.GuestToRemoveId != null)
                 await _groupMembersRepository.DeleteGroupGuestAsync((int)request.GuestToRemoveId, group.ID);
 
             return new() { Success = true };
