@@ -18,8 +18,8 @@ public class GuestsRepository : IGuestsRepository
     public async Task<IEnumerable<Guest>> GetByGroupID(int groupId)
     {
         var sql = @"
-            SELECT Id, Name, GroupID FROM guests
-            WHERE GroupId = @GroupID;";
+            SELECT ID, Name, GroupID FROM guests
+            WHERE GroupID = @GroupID;";
 
         return await _repository.QueryListAsync<Guest, dynamic>(sql, new { GroupID = groupId });
     }

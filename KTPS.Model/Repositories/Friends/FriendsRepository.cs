@@ -19,7 +19,7 @@ public class FriendsRepository : IFriendsRepository
     {
         var sql = @"
             SELECT u.ID, u.Username FROM users AS u
-            LEFT JOIN friends ON friends.UserId = u.ID
+            LEFT JOIN friends ON friends.UserID = u.ID
             WHERE friends.FriendId = @ID;";
 
         return await _repository.QueryListAsync<UserMinimal, dynamic>(sql, new { ID = userId });
@@ -29,7 +29,7 @@ public class FriendsRepository : IFriendsRepository
     {
         var sql = @"
             DELETE FROM friends
-            WHERE UserId = @UserID AND FriendId = @FriendID;";
+            WHERE UserID = @UserID AND FriendId = @FriendID;";
 
         await _repository.ExecuteAsync<dynamic>(sql, new { UserID = userId, FriendID = friendId });
     }
@@ -46,7 +46,7 @@ public class FriendsRepository : IFriendsRepository
     public async Task InsertAsync(int userId, int friendId)
     {
         var sql = @"
-            INSERT INTO friends (`UserId`, `FriendId`)
+            INSERT INTO friends (`UserId`, `FriendID`)
             VALUES (@UserID, @FriendID);";
 
         await _repository.ExecuteAsync(sql, new { UserID = userId, FriendID = friendId });

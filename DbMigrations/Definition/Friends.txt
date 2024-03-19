@@ -1,6 +1,6 @@
 CREATE TABLE friends (
-    Id INT AUTO_INCREMENT PRIMARY KEY,
-    FriendId INT NOT NULL,
-    UserId INT NOT NULL,
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    FriendID INT NOT NULL,
+    UserID INT NOT NULL,
     CONSTRAINT unique_friend_user UNIQUE (FriendId, UserId)
 );

@@ -45,7 +45,7 @@ public class UserRepository : IUserRepository
 
 	public async Task<UserBasic> GetByIdAsync(int id)
 	{
-        var sql = @"SELECT * FROM users WHERE Id = @Id";
+        var sql = @"SELECT * FROM users WHERE ID = @Id";
 
         return await _repository.QueryAsync<UserBasic, dynamic>(sql, new { Id = id });
     }
@@ -57,7 +57,7 @@ public class UserRepository : IUserRepository
             Username = @Username,
             Password = @Password,
             Email = @Email
-            WHERE Id = @Id";
+            WHERE ID = @Id";
 
         await _repository.ExecuteAsync<dynamic>(sql, new
         {
