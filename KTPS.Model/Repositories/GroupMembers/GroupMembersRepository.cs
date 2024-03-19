@@ -19,7 +19,7 @@ public class GroupMembersRepository : IGroupMembersRepository
 
     public async Task AddGroupMemberAsync(int userId, int groupId)
     {
-        var sql = @"INSERT INTO group_members (GroupId, UserId)
+        var sql = @"INSERT INTO group_members (GroupID, UserID)
                     VALUES (@GroupId, @UserId)"
         ;
 
@@ -30,7 +30,7 @@ public class GroupMembersRepository : IGroupMembersRepository
     {
         var sql = @"
             DELETE FROM guests
-            WHERE Id = @GuestId AND GroupId = @GroupId"
+            WHERE ID = @GuestId AND GroupID = @GroupId"
         ;
 
         await _repository.ExecuteAsync<dynamic>(sql, new { GuestId = guestId, GroupId = groupId});
@@ -40,7 +40,7 @@ public class GroupMembersRepository : IGroupMembersRepository
     {
         var sql = @"
             DELETE FROM group_members
-            WHERE UserId = @UserID AND GroupId = @GroupID;";
+            WHERE UserID = @UserID AND GroupID = @GroupID;";
 
         await _repository.ExecuteAsync<dynamic>(sql, new { UserID = userId, GroupID = groupId });
     }
@@ -49,7 +49,7 @@ public class GroupMembersRepository : IGroupMembersRepository
     {
         var sql = @"
             SELECT Id, GroupID, UserID from group_members
-            WHERE GroupId = @GroupID;";
+            WHERE GroupID = @GroupID;";
 
         return await _repository.QueryListAsync<GroupMember, dynamic>(sql, new { GroupID = groupId });
     }

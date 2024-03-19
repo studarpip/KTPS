@@ -37,15 +37,15 @@ public class GroupsService : IGroupsService
             if (userGroups.Any(x => x.Name == request.Name))
                 return new() { Success = true, Message = $"Group with name {request.Name} already exists!" };
 
-            var id = await _groupsRepository.InsertAsync(new()
+            var ID = await _groupsRepository.InsertAsync(new()
             {
                 Name = request.Name,
                 OwnerUserID = request.UserID
             });
 
-            await _groupMembersRepository.AddGroupMemberAsync(request.UserID, id);
+            await _groupMembersRepository.AddGroupMemberAsync(request.UserID, ID);
 
-            return new() { Success = true, Data = id };
+            return new() { Success = true, Data = ID };
         }
         catch (Exception)
         {
@@ -98,11 +98,11 @@ public class GroupsService : IGroupsService
         }
     }
 
-    public async Task<ServerResult<IEnumerable<GroupBasic>>> GetGroupListAsync(int userId)
+    public async Task<ServerResult<IEnumerable<GroupBasic>>> GetGroupListAsync(int userID)
     {
         try
         {
-            var list = await _groupsRepository.GetUserGroupsAsync(userId);
+            var list = await _groupsRepository.GetUserGroupsAsync(userID);
             return new() { Success = true, Data = list };
         }
         catch (Exception)
@@ -119,14 +119,14 @@ public class GroupsService : IGroupsService
             if (group is null)
                 return new() { Success = false, Message = "Group does not exist!" };
 
-            if (!group.OwnerUserID.Equals(request.RequestUserId))
+            if (!group.OwnerUserID.Equals(request.RequestUserID))
                 return new() { Success = false, Message = "Only the owner can remove group members!" };
 
-            if (request.UserToRemoveId != null && request.UserToRemoveId != group.OwnerUserID)
-                await _groupMembersRepository.DeleteGroupMemberAsync((int)request.UserToRemoveId, group.ID);
+            if (request.UserToRemoveID != null && request.UserToRemoveID != group.OwnerUserID)
+                await _groupMembersRepository.DeleteGroupMemberAsync((int)request.UserToRemoveID, group.ID);
 
-            if (request.GuestToRemoveId != null)
-                await _groupMembersRepository.DeleteGroupGuestAsync((int)request.GuestToRemoveId, group.ID);
+            if (request.GuestToRemoveID != null)
+                await _groupMembersRepository.DeleteGroupGuestAsync((int)request.GuestToRemoveID, group.ID);
 
             return new() { Success = true };
         }
@@ -136,16 +136,16 @@ public class GroupsService : IGroupsService
         }
     }
 
-    public async Task<ServerResult<GetGroupMembersResponse>> GetMemberListAsync(int groupId)
+    public async Task<ServerResult<GetGroupMembersResponse>> GetMemberListAsync(int groupID)
     {
         try
         {
-            var group = await _groupsRepository.GetGroupAsync(groupId);
+            var group = await _groupsRepository.GetGroupAsync(groupID);
             if (group is null)
                 return new() { Success = false, Message = "Group does not exist!" };
 
-            var members = await _groupMembersRepository.GetByGroupIDAsync(groupId);
-            var guests = await _guestsRepository.GetByGroupID(groupId);
+            var members = await _groupMembersRepository.GetByGroupIDAsync(groupID);
+            var guests = await _guestsRepository.GetByGroupID(groupID);
 
             return new() { Success = true, Data = new() { Guests = guests.ToList(), Members = members.ToList(), OwnerUserID = group.OwnerUserID } };
         }
@@ -163,8 +163,8 @@ public class GroupsService : IGroupsService
             if (group is null)
                 return new() { Success = false, Message = "Group does not exist!" };
 
-            var id = await _guestsRepository.InsertAsync(new() { GroupID = request.GroupID, Name = request.Name });
-            return new() { Success = true, Data = id };
+            var ID = await _guestsRepository.InsertAsync(new() { GroupID = request.GroupID, Name = request.Name });
+            return new() { Success = true, Data = ID };
         }
         catch (Exception)
         {
@@ -172,11 +172,11 @@ public class GroupsService : IGroupsService
         }
     }
 
-    public async Task<ServerResult> AddGroupMemberAsync(int groupId, int userId)
+    public async Task<ServerResult> AddGroupMemberAsync(int groupID, int userID)
     {
         try
         {
-            await _groupMembersRepository.AddGroupMemberAsync(userId, groupId);
+            await _groupMembersRepository.AddGroupMemberAsync(userID, groupID);
             return new() { Success = true };
         }
         catch (Exception)

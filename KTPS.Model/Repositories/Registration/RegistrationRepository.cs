@@ -33,14 +33,14 @@ public class RegistrationRepository : IRegistrationRepository
 
     public async Task<RegistrationBasic> GetByID(int id)
     {
-        var sql = @"SELECT * FROM registrations WHERE Id = @Id";
+        var sql = @"SELECT * FROM registrations WHERE ID = @Id";
 
         return await _repository.QueryAsync<RegistrationBasic, dynamic>(sql, new { Id = id });
     }
 
     public async Task AddUserToRegistration(int id, int userId)
     {
-        var sql = @"UPDATE registrations SET UserId = @UserId WHERE Id = @Id";
+        var sql = @"UPDATE registrations SET UserID = @UserId WHERE ID = @Id";
 
         await _repository.ExecuteAsync<dynamic>(sql, new { UserId = userId, Id = id });
     }

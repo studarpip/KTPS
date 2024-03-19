@@ -18,7 +18,7 @@ public class GroupsRepository : IGroupsRepository
     public async Task<IEnumerable<GroupBasic>> GetUserGroupsAsync(int userId)
     {
         var sql = @"
-            SELECT Id, Name, OwnerUserID
+            SELECT ID, Name, OwnerUserID
             FROM groups
             WHERE OwnerUserID = @OwnerUserID;";
 
@@ -30,7 +30,7 @@ public class GroupsRepository : IGroupsRepository
         var sql = @"
             SELECT ID, Name, OwnerUserID
             FROM groups
-            WHERE Id = @Id;";
+            WHERE ID = @Id;";
 
         return await _repository.QueryAsync<GroupBasic, dynamic>(sql, new { Id = id });
     }
@@ -50,7 +50,7 @@ public class GroupsRepository : IGroupsRepository
         var sql = @"
             UPDATE groups
             SET Name = @Name, OwnerUserID = @OwnerUserID
-            WHERE Id = @Id";
+            WHERE ID = @Id";
 
         await _repository.ExecuteAsync<dynamic>(sql, new { Id = group.ID, Name = group.Name, OwnerUserId = group.OwnerUserID });
     }
@@ -59,7 +59,7 @@ public class GroupsRepository : IGroupsRepository
     {
         var sql = @"
             DELETE FROM groups
-            WHERE Id = @Id";
+            WHERE ID = @Id";
 
         await _repository.ExecuteAsync<dynamic>(sql, new { Id = id });
     }
