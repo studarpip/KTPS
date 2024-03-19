@@ -64,7 +64,7 @@ public class RegistrationService : IRegistrationService
 
             int userId = await _userService.CreateUserAsync(registration);
 
-            await _registrationRepository.AddUserToRegistration(registration.Id, userId);
+            await _registrationRepository.AddUserToRegistration(registration.ID, userId);
 
             return new() { Success = true, Data = userId };
         }
